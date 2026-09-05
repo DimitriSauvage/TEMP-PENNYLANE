@@ -1,0 +1,14 @@
+# Copy to terraform.tfvars to override any default. Everything is
+# commented because the defaults match this repository as-is.
+#
+# WARNING: changing render_service_name also requires updating the /api
+# rewrite destination in frontend/vercel.json (Vercel rewrites cannot
+# read env vars), then redeploying the SPA from the CLI.
+
+# github_repo         = "pennylane-hiring/DimitriSauvage"
+# github_branch       = "main"
+# neon_project_name   = "dimitri-recipes"
+# neon_region         = "aws-eu-central-1"
+# render_service_name = "dimitri-recipes-api"
+# render_region       = "frankfurt"
+# vercel_project_name = "dimitri-recipes"

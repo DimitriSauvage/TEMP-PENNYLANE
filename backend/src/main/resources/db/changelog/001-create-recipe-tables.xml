@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-recipe-tables" author="dsauvage">
+        <createTable tableName="recipe">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_recipe"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_url" type="varchar(500)"/>
+        </createTable>
+
+        <createTable tableName="ingredient">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ingredient"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="recipe_ingredient">
+            <column name="recipe_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ingredient_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+            tableName="recipe_ingredient"
+            columnNames="recipe_id, ingredient_id"
+            constraintName="pk_recipe_ingredient"/>
+
+        <addForeignKeyConstraint
+            baseTableName="recipe_ingredient"
+            baseColumnNames="recipe_id"
+            referencedTableName="recipe"
+            referencedColumnNames="id"
+            constraintName="fk_recipe_ingredient_recipe"
+            onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+            baseTableName="recipe_ingredient"
+            baseColumnNames="ingredient_id"
+            referencedTableName="ingredient"
+            referencedColumnNames="id"
+            constraintName="fk_recipe_ingredient_ingredient"
+            onDelete="CASCADE"/>
+
+        <createIndex tableName="ingredient" indexName="uk_ingredient_name" unique="true">
+            <column name="name"/>
+        </createIndex>
+
+        <createIndex tableName="recipe_ingredient" indexName="idx_recipe_ingredient_ingredient_id">
+            <column name="ingredient_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

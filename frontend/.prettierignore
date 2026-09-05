@@ -1,0 +1,9 @@
+node_modules/
+.omo/
+.nuxt/
+.output/
+dist/
+coverage/
+app/api/generated/
+pnpm-lock.yaml
+openapi/api.json

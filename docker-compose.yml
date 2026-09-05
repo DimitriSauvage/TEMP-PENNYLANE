@@ -1,0 +1,52 @@
+# Full-stack local development: postgres + backend + frontend.
+# One command: `docker compose up --build` -> http://localhost:3000
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: recipes
+      POSTGRES_USER: recipes
+      POSTGRES_PASSWORD: recipes
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U recipes -d recipes"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/recipes
+      DB_USER: recipes
+      DB_PASSWORD: recipes
+    ports:
+      - "8080:8080"
+    # No seed flags: on boot the backend seeds itself when the catalog is empty
+    # (it downloads the gzipped dataset from S3), so a fresh postgres-data volume
+    # comes up seeded and later boots skip.
+    # Same /dev/tcp probe as the Dockerfile HEALTHCHECK (no curl/wget in the
+    # JRE image; /dev/tcp is host/port only, so TCP-connect on the app port).
+    healthcheck:
+      test: ["CMD", "bash", "-c", ": < /dev/tcp/127.0.0.1/8080 || exit 1"]
+      interval: 15s
+      timeout: 3s
+      retries: 10
+      start_period: 90s
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:8080"
+
+volumes:
+  postgres-data:

@@ -1,0 +1,33 @@
+# Render free web services sleep after 15 minutes without inbound traffic
+# (about a 1-minute cold boot). This cron keeps the backend awake around
+# the clock for the review period: ~103 runs/day, each job billed as 1
+# minute against GitHub Free's 2,000 private-repo minutes/month
+# (~1,030 minutes for 10 days). The health endpoint also queries the
+# database, so Neon's compute wakes in the same request.
+#
+# One-time setup (the URL is not committed to git):
+#   gh variable set RENDER_HEALTH_URL --body "https://dimitri-recipes-api.onrender.com/actuator/health"
+#
+# Stop it after the review:
+#   gh workflow disable keep-alive.yml
+
+name: keep-alive
+
+on:
+  schedule:
+    - cron: "*/14 * * * *" # GitHub Actions minimum schedule interval is 5 minutes
+  workflow_dispatch: # allows a manual ping from the Actions tab
+
+jobs:
+  ping:
+    # Skipped until RENDER_HEALTH_URL is configured.
+    if: vars.RENDER_HEALTH_URL != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping Render health endpoint
+        run: |
+          curl -fsS --max-time 30 "${RENDER_HEALTH_URL}" > /dev/null
+          echo "backend is awake"
+        env:
+          RENDER_HEALTH_URL: ${{ vars.RENDER_HEALTH_URL }}

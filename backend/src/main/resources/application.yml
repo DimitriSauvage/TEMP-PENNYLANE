@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: recipes
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/recipes}
+    username: ${DB_USER:recipes}
+    password: ${DB_PASSWORD:recipes}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/master.xml
+
+app:
+  # Comma-separated browser origins allowed to call the API (CORS).
+  # The deployed setup is same-origin (the static host proxies /api), so this
+  # only matters for custom domains or no-rewrite setups.
+  cors:
+    allowed-origins: http://localhost:3000
+  seed:
+    # Seed source used when the catalog is empty at boot (there is no on/off
+    # switch: an empty catalog is always seeded). http(s) URLs are downloaded
+    # and gunzipped when they end in .gz; classpath:/file: locations also work
+    # (the tests point this at fixtures).
+    url: https://pennylane-interviewing-assets-20220328.s3.eu-west-1.amazonaws.com/recipes-en.json.gz
+
+# Health endpoint only, for the container HEALTHCHECK and compose readiness.
+# The app has no auth, so details stay hidden: the body is just {"status":"UP"}.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

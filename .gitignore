@@ -1,0 +1,15 @@
+data/recipes-en.json
+.omo/
+.playwright-mcp/
+
+# Terraform: local state holds the database password, so it never goes to
+# git. Provider API tokens live in environment variables, never in files.
+# .terraform.lock.hcl IS committed on purpose.
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/crash.log
+terraform/override.tf
+terraform/override.tf.json
+terraform/*.auto.tfvars
+terraform/terraform.tfvars

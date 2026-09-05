@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Perfect Pancakes",
+    "image": "http://img.example/pancakes.jpg",
+    "ingredients": ["2 cups flour", "3 eggs", "1 cup milk", "3 tbsp butter", "1/4 cup sugar"]
+  },
+  {
+    "title": "Simple Omelette",
+    "ingredients": ["3 eggs", "pinch of salt", "1 tbsp butter"]
+  },
+  {
+    "title": "Flourless Chocolate Cake",
+    "ingredients": ["200 g chocolate", "4 eggs", "1 cup sugar"]
+  },
+  {
+    "title": "Basic Bread",
+    "ingredients": ["500 g flour", "1 cup water", "1 package yeast"]
+  },
+  {
+    "title": "Tie Recipe A",
+    "ingredients": ["1 cup flour", "1 tbsp butter", "1 cup sugar"]
+  },
+  {
+    "title": "Tie Recipe B",
+    "ingredients": ["1 cup flour", "3 eggs", "1 tbsp butter", "1 cup sugar"]
+  },
+  {
+    "title": "Instant Snack",
+    "ingredients": ["2 eggs"]
+  },
+  {
+    "title": "Salted Eggs",
+    "ingredients": ["3 eggs", "2 tsp salt"]
+  },
+  {
+    "title": "Suggestion Bucket",
+    "ingredients": [
+      "2 chicken",
+      "1 cup chicken broth",
+      "1 can chicken stock",
+      "1 cup chickpea",
+      "2 cups chickpea flour",
+      "1 package chickpea pasta",
+      "1 chile pepper",
+      "2 tbsp chili paste",
+      "1 tsp chili powder",
+      "1 cup chili sauce",
+      "1 bunch chives"
+    ]
+  }
+]
